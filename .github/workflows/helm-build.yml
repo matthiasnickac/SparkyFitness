@@ -26,8 +26,8 @@ jobs:
       - name: Build and push the Server image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile.server
+          context: ./SparkyFitnessServer # <-- ZOOM IN ON THE BACKEND FOLDER!
+          file: ./Dockerfile.server # (Assuming your Dockerfile is still in the root of the repo)
           push: true
-          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm0.1
-          platforms: linux/amd64 # Bypasses your Pi completely!
+          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm0.2 # Bumped to 0.2
+          platforms: linux/amd64
