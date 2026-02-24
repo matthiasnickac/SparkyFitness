@@ -29,5 +29,5 @@ jobs:
           context: ./SparkyFitnessServer # <-- ZOOM IN ON THE BACKEND FOLDER!
           file: ./Dockerfile.server # (Assuming your Dockerfile is still in the root of the repo)
           push: true
-          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm0.3 # Bumped to 0.2
+          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm0.4 # Bumped to 0.2
           platforms: linux/amd64
