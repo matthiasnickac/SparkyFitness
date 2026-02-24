@@ -29,5 +29,5 @@ jobs:
           context: .
           file: ./Dockerfile.server
           push: true
-          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm
+          tags: matthiasnick/sparkyfitness-server:v0.16.4.5-helm0.1
           platforms: linux/amd64 # Bypasses your Pi completely!
