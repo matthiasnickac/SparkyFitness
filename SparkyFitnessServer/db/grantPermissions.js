@@ -46,9 +46,6 @@ async function grantPermissions() {
     );
 
     // Grant permissions on all functions in the auth schema
-    await client.query(
-      `GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA auth TO ${appUser}`,
-    );
     await client.query(`
       DO $$
       DECLARE
@@ -70,6 +67,9 @@ async function grantPermissions() {
       END
       $$;
     `);
+    await client.query(
+      `ALTER DEFAULT PRIVILEGES IN SCHEMA auth GRANT EXECUTE ON FUNCTIONS TO ${appUser}`,
+    );
       
 
     // Grant select on schema_migrations to check applied migrations
