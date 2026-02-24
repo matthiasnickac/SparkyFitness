@@ -49,9 +49,28 @@ async function grantPermissions() {
     await client.query(
       `GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA auth TO ${appUser}`,
     );
-    await client.query(
-      `ALTER DEFAULT PRIVILEGES IN SCHEMA auth GRANT EXECUTE ON FUNCTIONS TO ${appUser}`,
-    );
+    await client.query(`
+      DO $$
+      DECLARE
+          func record;
+      BEGIN
+          FOR func IN
+              SELECT p.oid::regprocedure AS func_signature
+              FROM pg_proc p
+              JOIN pg_namespace n ON p.pronamespace = n.oid
+              WHERE n.nspname = 'public'
+              -- The magic line: filter out functions owned by extensions
+              AND NOT EXISTS (
+                  SELECT 1 FROM pg_depend d
+                  WHERE d.objid = p.oid AND d.deptype = 'e'
+              )
+          LOOP
+              EXECUTE 'GRANT EXECUTE ON FUNCTION ' || func.func_signature || ' TO ${appUser}';
+          END LOOP;
+      END
+      $$;
+    `);
+      
 
     // Grant select on schema_migrations to check applied migrations
     await client.query(
